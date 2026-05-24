@@ -480,7 +480,7 @@ async function classify(imgEl, dataUrl) {
   currentPrediction = predictions;
 
   // Mostra preview
-  document.getElempawentById('preview-img').src = dataUrl;
+  document.getElementById('preview-img').src = dataUrl;
   document.getElementById('preview-wrap').classList.add('visible');
   document.getElementById('true-label-select').value = '';
 

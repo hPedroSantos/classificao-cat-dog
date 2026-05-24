@@ -15,7 +15,7 @@ def baixar_imagens_teste():
     print("="*60)
     
     # Cria pasta se não existir
-    pasta_destino = Path('C2/imagens_teste')
+    pasta_destino = Path('imagens_teste')
     pasta_destino.mkdir(parents=True, exist_ok=True)
     
     # Lista de imagens para baixar (URLs do Unsplash - gratuitas)
@@ -30,7 +30,7 @@ def baixar_imagens_teste():
         'pets_multiplos_02.jpg': 'https://images.unsplash.com/photo-1444212477490-ca407925329e?w=1200&q=80',
     }
     
-    print(f"\n📥 Iniciando download de {len(imagens)} imagens...\n")
+    print(f"\n Iniciando download de {len(imagens)} imagens...\n")
     
     sucesso = 0
     falhas = 0
@@ -66,14 +66,14 @@ def baixar_imagens_teste():
     print("="*60)
     print(f"✓ Sucesso: {sucesso}/{len(imagens)}")
     print(f"✗ Falhas: {falhas}/{len(imagens)}")
-    print(f"📁 Pasta: {pasta_destino.absolute()}")
+    print(f" Pasta: {pasta_destino.absolute()}")
     print("="*60 + "\n")
     
     if sucesso > 0:
-        print("✅ Imagens prontas para usar!")
+        print(" Imagens prontas para usar!")
         print(f"   Execute agora: python C2/reconhecimento_yolo.py\n")
     else:
-        print("⚠ Nenhuma imagem foi baixada. Verifique sua conexão.\n")
+        print("Nenhuma imagem foi baixada. Verifique sua conexão.\n")
 
 if __name__ == "__main__":
     baixar_imagens_teste()

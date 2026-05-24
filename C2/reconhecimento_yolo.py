@@ -2,7 +2,9 @@
 from ultralytics import YOLO
 import cv2
 import os
+import numpy as np
 from pathlib import Path
+from PIL import Image
 
 class ReconhecedorObjetos:
     """
@@ -38,8 +40,14 @@ class ReconhecedorObjetos:
         """
         print(f"Processando: {os.path.basename(caminho_imagem)}")
         
-        # Realiza a detecção
-        resultados = self.modelo(caminho_imagem, verbose=False)
+        # Realiza a detecção (.avif precisa ser convertido via Pillow pois YOLO não suporta nativamente)
+        if str(caminho_imagem).lower().endswith('.avif'):
+            img_pil = Image.open(caminho_imagem).convert('RGB')
+            entrada = np.array(img_pil)
+        else:
+            entrada = caminho_imagem
+
+        resultados = self.modelo(entrada, verbose=False)
         
         # Processa os resultados
         objetos_detectados = []
@@ -61,6 +69,9 @@ class ReconhecedorObjetos:
             os.makedirs(pasta_resultado, exist_ok=True)
             
             nome_arquivo = os.path.basename(caminho_imagem)
+            # cv2.imwrite não suporta .avif — converte a extensão de saída para .jpg
+            if nome_arquivo.lower().endswith('.avif'):
+                nome_arquivo = os.path.splitext(nome_arquivo)[0] + '.jpg'
             caminho_saida = os.path.join(pasta_resultado, f'detectado_{nome_arquivo}')
             
             # YOLO desenha as caixas automaticamente
@@ -112,7 +123,7 @@ def buscar_imagens(pasta='imagens_teste'):
         return []
     
     # Extensões suportadas
-    extensoes = ['*.jpg', '*.jpeg', '*.png', '*.bmp', '*.webp']
+    extensoes = ['*.jpg', '*.jpeg', '*.png', '*.bmp', '*.webp', '*.avif']
     
     imagens = []
     for ext in extensoes:
